@@ -84,14 +84,6 @@ def main():
     while(repr(state) != "Landed_State"):
         try:
 
-            ###########################
-            # Print the current frame
-            frame = vs.read()
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(10) & 0xFF == ord('q'):
-                break
-            ###########################
-
             state.executeControl(vs, vehicle, out, log_name)
             state = state.transition()
 
