@@ -4,16 +4,11 @@
 # tplayer@hmc.edu
 
 from Landing_State import Landing_State
-from nav_helper_funcs import find_target, log_data, move_vel, move_pos, send_land_message
+from nav_helper_funcs import find_target, log_data,goto,  move_vel, move_pos, send_land_message
 import global_params as gp
 import dronekit
 import time
 import math
-<< << << < HEAD
-
-== == == =
->>>>>> > 415b0e1a5a4ab6027addd958d4aa6832dbc82576
-
 
 class Restart_State(Landing_State):
     """
@@ -32,8 +27,10 @@ class Restart_State(Landing_State):
         """
 
         x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
-
-        if x_m is not None:  # if a target was found, x_m won't be None.
+        
+        z = vehicle.location.global_relative_frame.alt
+        # target must be found and altitude must be high
+        if x_m is not None and z > 5:  # if a target was found, x_m won't be None.
             self.set_next_state('target_found')
             # record this sighting
             self.targ_sighting_loc = vehicle.location.global_relative_frame
@@ -51,8 +48,7 @@ class Restart_State(Landing_State):
             else:
                 loc_des = self.targ_sighting_loc
 
-            vehicle.mode = VehicleMode("AUTO")
-            vehicle.simple_goto(loc_des)
+            goto(vehicle, loc_des.lat, loc_des.lon, gp.restart_height)
 
         log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
         out.write(frame)
@@ -67,16 +63,9 @@ class Initial_Descent_State(Landing_State):
         if event == 'target_lost':
             self.next_state = Restart_State(self.targ_sighting_loc)
         elif event == 'low_altitude':
+            self.next_state = Final_Descent_State(self.targ_sighting_loc)
 
-
-<< << << < HEAD
-self.next_state = Final_Descent_State(self.targ_sighting_loc=)
-== == == =
-self.next_state = Final_Descent_State()
->>>>>> > 415b0e1a5a4ab6027addd958d4aa6832dbc82576
-
-
-def executeControl(self, vs, vehicle, out, log_name):
+    def executeControl(self, vs, vehicle, out, log_name):
         """ 
         Control loop. Searches for target. If it finds the target, 
         it proceeds either horizontally or verticall until it is 
@@ -100,7 +89,7 @@ def executeControl(self, vs, vehicle, out, log_name):
             if (x_m*x_m + y_m*y_m) > gp.descent_err*gp.descent_err:
 
                 # go horizontally
-                move_pos(vehicle, x_m, y_m, 0)
+                move_pos(vehicle, -x_m, -y_m, 0)
             else:
                 # go vertically
                 move_vel(vehicle, 0, 0, gp.descent_vel)
@@ -120,6 +109,7 @@ class Final_Descent_State(Landing_State):
     def __init__(self, targ_sighting_loc=None):
         self.next_state = self
         self.time_that_copter_stopped = None
+        self.targ_sighting_loc = targ_sighting_loc
         print('Processing current state:', str(self))
 
     def set_next_state(self, event):

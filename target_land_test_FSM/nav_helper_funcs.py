@@ -80,6 +80,29 @@ def send_land_message(vehicle, x, y, dist):
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
+def goto(vehicle, lat, lon, z):
+    print("going to position: {}".format([lat, lon, z]))
+    msg = vehicle.message_factory.set_position_target_global_int_encode(
+        0,
+        0,
+        0,
+        mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT_INT,
+        0b110111111000,  # Position typemask
+        int(lat* 10**7),  # latitude
+        int(lon* 10**7 ),  # longitude
+        z,  # altitude in meters above home position
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    )
+    vehicle.mode = VehicleMode("GUIDED")
+    vehicle.send_mavlink(msg)
+    vehicle.flush()
 
 def move_pos(vehicle, x, y, z):
     """
@@ -256,7 +279,7 @@ def find_target(vs, vehicle):
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
             z = vehicle.location.global_relative_frame.alt
-            print("Alt: ", z)
+            #print("Alt: ", z)
             m_per_pix_x = (2*z*math.tan(horizontal_fov/2)) / \
                 horizontal_resolution
             m_per_pix_y = (2*z*math.tan(vertical_fov/2)) / \
