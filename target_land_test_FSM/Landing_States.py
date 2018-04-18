@@ -25,7 +25,7 @@ class Restart_State(Landing_State):
     def set_next_state(self, event):
         # to enter Initial_Descent_State, the copter must be near its restart point and it must see the target.
         if event == 'target_found' and self.destination_reached:
-            self.next_state = Initial_Descent_State(self.targ_sighting_loc)
+            self.next_state = Final_Descent_State(self.targ_sighting_loc)
 
     def executeControl(self, vs, vehicle, out, log_name):
         """ 
@@ -67,9 +67,12 @@ class Initial_Descent_State(Landing_State):
     """
     First, center the target in the sights. Then, descend. 
     """
+    def __init__(self, targ_sighting_loc=None):
+        super(Initial_Descent_State, self).__init__(targ_sighting_loc)
+        self.last_sight_time = time.clock()
 
     def set_next_state(self, event):
-        if event == 'target_lost':
+        if event == 'target_lost' and (time.clock() - self.last_sight_time > gp.time_till_lost):
             self.next_state = Restart_State(self.targ_sighting_loc)
         elif event == 'low_altitude':
             self.next_state = Final_Descent_State(self.targ_sighting_loc)
@@ -92,6 +95,7 @@ class Initial_Descent_State(Landing_State):
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
             self.targ_sighting_loc = vehicle.location.global_relative_frame
+            self.last_sight_time = time.clock()
 
             # proceed horizontally or vertically.
             if (x_m*x_m + y_m*y_m) > gp.descent_err*gp.descent_err:
@@ -114,11 +118,12 @@ class Final_Descent_State(Landing_State):
     """
 
     def __init__(self, targ_sighting_loc=None):
-        super(Final_Descent_State, self).__init__()
+        super(Final_Descent_State, self).__init__(targ_sighting_loc)
         self.time_that_copter_stopped = None
+        self.last_sight_time = time.clock()
 
     def set_next_state(self, event):
-        if event == 'target_lost':
+        if event == 'target_lost' and (time.clock() - self.last_sight_time > gp.time_till_lost):
             self.next_state = Restart_State(self.targ_sighting_loc)
         elif event == 'landed':
             self.next_state = Landed_State()
@@ -147,7 +152,7 @@ class Final_Descent_State(Landing_State):
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
             self.targ_sighting_loc = vehicle.location.global_relative_frame
-
+            self.last_sight_time = time.clock()
             # calculate distance
             z = vehicle.location.global_relative_frame.alt
             dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
