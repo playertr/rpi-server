@@ -35,7 +35,7 @@ class Restart_State(Landing_State):
         """
 
         # Search for the target. If found, issue a set_next_state event and record the location.
-        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
+        x_m, y_m, x_rad, y_rad, frame = find_target(vs, vehicle)
 
         z = vehicle.location.global_relative_frame.alt
         # target must be found and altitude must be high
@@ -59,7 +59,7 @@ class Restart_State(Landing_State):
             vehicle.location.global_relative_frame, self.loc_des)
         self.destination_reached = (err < gp.restart_err)
 
-        log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
+        log_data(log_name, vehicle, x_m, y_m, x_rad, y_rad)
         out.write(frame)
 
 
@@ -95,7 +95,7 @@ class Initial_Descent_State(Landing_State):
         if z < gp.final_descent_alt:  # if height < 4 meters
             self.set_next_state('low_altitude')
 
-        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
+        x_m, y_m, x_rad, y_rad, frame = find_target(vs, vehicle)
 
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
@@ -113,7 +113,7 @@ class Initial_Descent_State(Landing_State):
         else:
             self.set_next_state('target_lost')
 
-        log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
+        log_data(log_name, vehicle, x_m, y_m, x_rad, y_rad)
         out.write(frame)
 
 
@@ -152,7 +152,7 @@ class Final_Descent_State(Landing_State):
         #         self.set_next_state('landed')
         #         return
 
-        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
+        x_m, y_m, x_rad, y_rad, frame = find_target(vs, vehicle)
 
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
@@ -162,12 +162,12 @@ class Final_Descent_State(Landing_State):
             z = vehicle.location.global_relative_frame.alt
             dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
 
-            send_land_message(vehicle, x_pix, y_pix, dist)
+            send_land_message(vehicle, x_rad, y_rad, dist)
 
         else:
             self.set_next_state('target_lost')
 
-        log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
+        log_data(log_name, vehicle, x_m, y_m, x_rad, y_rad)
         out.write(frame)
 
 

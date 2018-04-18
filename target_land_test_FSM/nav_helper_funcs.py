@@ -52,22 +52,18 @@ def make_headers(file_name):
 
     f = open(file_name, 'a+')
     f.write('{0} {1:^1} {2:^1} {3:^1} {4:^1} {5:^1} {6:^1}\n'.format(
-        'Lat', 'Lon', 'Alt', 'X-plat', 'Y-plat', 'X-px', "Y-px"))
+        'Lat', 'Lon', 'Alt', 'X-plat', 'Y-plat', 'X-rad', "Y-rad"))
     f.close()
 
 
-def send_land_message(vehicle, x, y, dist):
+def send_land_message(vehicle, x_rad, y_rad, dist):
     """Sends MAV: LANDING_TARGET_ENCODE message to copter
 
     Arguments:
-        x {int} -- target x centroid in pixels
-        y {int} -- target y centroid in pixels
+        x {int} -- target x centroid in rad
+        y {int} -- target y centroid in rad
         dist {[type]} -- [description]
     """
-    # radians
-    x_rad = (x-horizontal_resolution/2)*horizontal_fov/horizontal_resolution
-    y_rad = (y-vertical_resolution/2)*vertical_fov/vertical_resolution
-
     msg = vehicle.message_factory.landing_target_encode(
         0,       # time_boot_ms (not used)
         0,       # target num
@@ -76,7 +72,7 @@ def send_land_message(vehicle, x, y, dist):
         y_rad,  # y-axis angular offset
         dist,      # distance to target, in meters
         0, 0)     # size of target in radians
-    vehicle.mode = VehicleMode("GUIDED")
+    vehicle.mode = VehicleMode("LAND")
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
@@ -267,7 +263,7 @@ def find_target(vs, vehicle):
     center = None
 
     # initialize return values to None
-    (x_m, y_m, x_pix, y_pix) = (None, None, None, None)
+    (x_m, y_m, x_rad, y_rad) = (None, None, None, None)
 
     # only proceed if at least one contour was found
     if len(cnts) > 0:
@@ -303,9 +299,9 @@ def find_target(vs, vehicle):
             x_m = (x-horizontal_resolution/2)*m_per_pix_x
             y_m = -(y-vertical_resolution/2)*m_per_pix_y
             dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
-            x_pix = (x-horizontal_resolution/2) * \
+            x_rad = (x-horizontal_resolution/2) * \
                 horizontal_fov/horizontal_resolution
-            y_pix = (y-vertical_resolution/2) * \
+            y_rad = (y-vertical_resolution/2) * \
                 vertical_fov/vertical_resolution
 
-    return (x_m, y_m, x_pix, y_pix, frame)
+    return (x_m, y_m, x_rad, y_rad, frame)

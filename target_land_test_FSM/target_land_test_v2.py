@@ -34,15 +34,11 @@ import os
 def main():
 
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
-    vehicle.parameters['PLND_ENABLED'] = 1
-    vehicle.parameters['PLND_TYPE'] = 1  # companion computer
-    vehicle.parameters['PLND_EST_TYPE'] = 0  # raw sensor input
-    vehicle.flush()
+    #vehicle.parameters['PLND_EST_TYPE'] = 0  #  raw output
+    #vehicle.flush()
 
-    time.sleep(0.5)
-    print "PLND_ENABLED: %s" % vehicle.parameters['PLND_ENABLED']
-    print "PLND_TYPE: %s" % vehicle.parameters['PLND_TYPE']
-    print "PLND_EST_TYPE: %s" % vehicle.parameters['PLND_EST_TYPE']
+    #time.sleep(0.5)
+    #print "PLND_EST_TYPE: %s" % vehicle.parameters['PLND_EST_TYPE']
 
     # start input video stream
     vs = PiVideoStream(resolution=(

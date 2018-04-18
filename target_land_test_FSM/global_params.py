@@ -22,7 +22,7 @@ restart_err = 1  # the success radius for restart destination
 
 descent_err = 1  # in Initial_Descent_State, the horizontal success radius
 descent_vel = 0.4  # in Initial_Descent_State, the vertical descent rate
-time_till_lost = 4
+time_till_lost = 2
 
 time_till_lost = 3
 
