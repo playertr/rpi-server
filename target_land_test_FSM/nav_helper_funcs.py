@@ -35,7 +35,7 @@ def getFPS(vs, vehicle):
     # Determine the frames per second of camera by running test loop 100 times
     while fps._numFrames < 100:
         # update the FPS counter and run through the image processing alg
-        find_target(vs)
+        find_target(vs, vehicle)
         fps.update()
 
     # stop the timer and display FPS information
