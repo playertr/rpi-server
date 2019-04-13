@@ -8,8 +8,7 @@
 from global_params import og_horz_resolution, og_vert_resolution, horizontal_resolution, vertical_resolution
 from nav_helper_funcs import getFPS, make_headers
 
-from Landing_States import Initial_Descent_State, \
-    Final_Descent_State, Restart_State, Landed_State
+from Landing_States import Restart_State, Initial_Descent_State, Final_Descent_State, Landed_State
 
 from collections import deque
 from imutils.video import VideoStream
