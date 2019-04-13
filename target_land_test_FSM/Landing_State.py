@@ -32,7 +32,7 @@ class Landing_State(object):
         """
         raise NotImplementedError
 
-    def executeControl(self, vs, vehicle, out):
+    def executeControl(self, vs, vehicle, out, log_name):
         """
         Inherited (base) control loop for LandingState object
 
@@ -40,6 +40,7 @@ class Landing_State(object):
             vs {PiVideoStream} -- the videostream object from the cam
             vehicle {Vehicle} -- the Dronekit Vehical object
             out {cv2.VideoWriter} -- the output vidoestream
+            log_name {String} -- the relative path of the log file
         """
         raise NotImplementedError
 

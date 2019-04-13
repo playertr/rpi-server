@@ -65,7 +65,7 @@ def main():
 
     while(repr(state) != "Landed_State"):
         try:
-            state.executeControl(vs, vehicle, out)
+            state.executeControl(vs, vehicle, out, log_name)
             state = state.transition()
 
         except (KeyboardInterrupt, SystemExit):
