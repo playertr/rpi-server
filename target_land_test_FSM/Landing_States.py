@@ -18,7 +18,7 @@ class Restart_State(Landing_State):
         if event == 'target_found':
             self.next_state = Initial_Descent_State(self.targ_sighting_loc)
 
-    def executeControl(self, vs, vehicle, out):
+    def executeControl(self, vs, vehicle, out, log_name):
         """ 
         Control loop. Searches for target. If it finds the target, 
         next_state is set to Initial_Descent_State. Otherwise,
@@ -59,7 +59,7 @@ class Initial_Descent_State(Landing_State):
         if event == 'target_lost':
             next_state = Lost_State(self.targ_sighting_loc)
 
-    def executeControl(self, vs, vehicle, out):
+    def executeControl(self, vs, vehicle, out, log_name):
         """ 
         Control loop. Searches for target. If it finds the target, 
         it proceeds either horizontally or verticall until it is 
@@ -106,7 +106,7 @@ class Final_Descent_State(Landing_State):
         elif event == 'landed':
             next_state = Landed_State()
 
-    def executeControl(self, vs, vehicle, out):
+    def executeControl(self, vs, vehicle, out, log_name):
         """ 
         Control loop. Searches for target. If it finds the target, 
         it sends a LANDING_TARGET_ENCODE sequence.
