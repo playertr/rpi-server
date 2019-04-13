@@ -4,7 +4,7 @@
 # tplayer@hmc.edu
 
 from Landing_State import Landing_State
-import nav_helper_funcs
+from nav_helper_funcs import find_target
 import global_params as gp
 
 
