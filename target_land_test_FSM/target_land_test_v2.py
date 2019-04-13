@@ -6,6 +6,7 @@
 # Development version 29 March 2019
 
 import global_params
+import nav_helper_funcs
 from Landing_States import Initial_Descent_State, \
     Final_Descent_State, Restart_State, Landed_State
 
