@@ -33,7 +33,7 @@ def getFPS(vs):
         # update the FPS counter and run through the image processing alg
 
         # DEBUG: print vs frame
-        frame = vs.frame()
+        frame = vs.read()
         cv2.imshow(frame)
         cv2.waitKey()
 
