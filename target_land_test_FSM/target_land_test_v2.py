@@ -61,7 +61,7 @@ def main():
     make_headers(log_name)
 
     # control loop
-    state = Searching_State()
+    state = Restart_State()
 
     while(repr(state) != "Landed_State"):
         try:
