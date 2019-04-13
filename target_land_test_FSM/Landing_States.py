@@ -6,6 +6,7 @@
 from Landing_State import Landing_State
 from nav_helper_funcs import find_target
 import global_params as gp
+import dronekit
 
 
 class Restart_State(Landing_State):
