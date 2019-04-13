@@ -24,6 +24,7 @@ import numpy as np
 import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
+import pympler
 
 
 #####################################################################
@@ -32,6 +33,10 @@ from pymavlink import mavutil
 
 
 def main():
+
+    # track memory leaks
+    from pympler.tracker import SummaryTracker
+    tracker = SummaryTracker()
 
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
 
@@ -68,10 +73,17 @@ def main():
             state.executeControl(vs, vehicle, out, log_name)
             state = state.transition()
 
+            # track memory leaks
+            tracker.print_diff()
+
         except (KeyboardInterrupt, SystemExit):
             break
 
     terminate_flight(vehicle)
+    out.release()
+    vehicle.close()
+    cv2.destroyAllWindows()
+    vs.stop()
 
 
 if __name__ == "__main__":
