@@ -4,7 +4,7 @@
 # tplayer@hmc.edu
 
 from Landing_State import Landing_State
-from nav_helper_funcs import find_target
+from nav_helper_funcs import find_target, log_data
 import global_params as gp
 import dronekit
 
