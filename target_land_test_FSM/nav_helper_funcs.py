@@ -28,7 +28,7 @@ def getFPS(vs, vehicle):
         vehicle {Vehicle} -- dronekit Vehicle object (required by find_target)
 
     Returns:
-        [type] -- [description]
+        fps -- FPS object
     """
 
     fps = FPS().start()
@@ -172,7 +172,17 @@ def log_data(file_name, vehicle, x_m, y_m, x_pix, y_pix):
     f.close()
 
 
-def find_target(vs, vehicle):
+def find_target(vs, vehicle, out):
+    """Computes the lateral displacement in meters and pixels of the target from the drone. Writes the image to the output video stream.
+
+    Arguments:
+        vs {PiVideoStream} -- The piCam input
+        vehicle {Vehicle} -- dronekit Vehicle object to find altitude
+        out {VideoWriter} -- cv2 VideoWriter object to write frame to
+
+    Returns:
+        (x_m, y_m, x_pix, y_pix) -- lateral displacement in meters and pixels
+    """
 
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
