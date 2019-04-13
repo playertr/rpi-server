@@ -2,6 +2,7 @@
 # Tim Player
 # 3 April 2019
 
+from global_params import horizontal_resolution, colorLower, colorHigher, colorHigher, min_radius, horizontal_fov, vertical_fov, horizontal_resolution, vertical_resolution, og_horz_resolution, og_vert_resolution
 from collections import deque
 from imutils.video import VideoStream
 from imutils.video.pivideostream import PiVideoStream
