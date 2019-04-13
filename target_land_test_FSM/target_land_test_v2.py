@@ -51,7 +51,7 @@ def main():
     fps = getFPS(vs)
 
     out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
-                          (gp.horizontal_resolution, gp.vertical_resolution))
+                          (horizontal_resolution, vertical_resolution))
 
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
 
