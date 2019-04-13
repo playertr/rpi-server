@@ -27,9 +27,16 @@ def getFPS(vs):
     """
 
     fps = FPS().start()
+
     # Determine the frames per second of camera by running test loop 100 times
     while fps._numFrames < 100:
         # update the FPS counter and run through the image processing alg
+
+        # DEBUG: print vs frame
+        frame = vs.frame()
+        cv2.imshow(frame)
+        cv2.waitKey()
+
         find_target(vs)
         fps.update()
 
@@ -171,6 +178,7 @@ def find_target(vs):
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
     frame = vs.read()
+
     frame = imutils.resize(
         frame, width=horizontal_resolution, height=vertical_resolution)
 

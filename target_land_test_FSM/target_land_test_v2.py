@@ -5,7 +5,7 @@
 # Questions? tplayer@hmc.edu, apham@hmc.edu
 # Development version 29 March 2019
 
-import global_params as gp
+from global_params import og_horz_resolution, og_vert_resolution
 from nav_helper_funcs import getFPS, make_headers
 
 from Landing_States import Initial_Descent_State, \
@@ -35,7 +35,7 @@ from pymavlink import mavutil
 def main():
     # start input video stream
     vs = PiVideoStream(resolution=(
-        gp.og_horz_resolution, gp.og_vert_resolution)).start()
+        og_horz_resolution, og_vert_resolution)).start()
 
     # label this capture
     start_time = datetime.datetime.now().replace(microsecond=0).strftime(
