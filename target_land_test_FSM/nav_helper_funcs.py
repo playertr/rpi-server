@@ -17,6 +17,7 @@ import numpy as np
 import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
+import pdb
 
 
 def getFPS(vs):
@@ -31,8 +32,6 @@ def getFPS(vs):
     # Determine the frames per second of camera by running test loop 100 times
     while fps._numFrames < 100:
         # update the FPS counter and run through the image processing alg
-
-        frame = vs.read()
 
         find_target(vs)
         fps.update()
@@ -172,6 +171,7 @@ def log_data(file_name, vehicle, x_m, y_m, x_pix, y_pix):
 
 def find_target(vs):
 
+    pdb.set_trace()
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
     frame = vs.read()
