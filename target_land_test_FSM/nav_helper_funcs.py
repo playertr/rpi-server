@@ -172,16 +172,16 @@ def log_data(file_name, vehicle, x_m, y_m, x_pix, y_pix):
     f.close()
 
 
-def find_target(vs, vehicle, out):
-    """Computes the lateral displacement in meters and pixels of the target from the drone. Writes the image to the output video stream.
+def find_target(vs, vehicle):
+    """
+    Computes the lateral displacement in meters and pixels of the target from the drone. Writes the image to the output video stream.
 
     Arguments:
         vs {PiVideoStream} -- The piCam input
         vehicle {Vehicle} -- dronekit Vehicle object to find altitude
-        out {VideoWriter} -- cv2 VideoWriter object to write frame to
 
     Returns:
-        (x_m, y_m, x_pix, y_pix) -- lateral displacement in meters and pixels
+        (x_m, y_m, x_pix, y_pix, frame) -- lateral displacement in meters and pixels, plus video image
     """
 
     # grab the frame from the threaded video stream and resize it
@@ -250,4 +250,4 @@ def find_target(vs, vehicle, out):
             y_pix = (y-vertical_resolution/2) * \
                 vertical_fov/vertical_resolution
 
-    return (x_m, y_m, x_pix, y_pix)
+    return (x_m, y_m, x_pix, y_pix, frame)

@@ -4,7 +4,7 @@
 # tplayer@hmc.edu
 
 from Landing_State import Landing_State
-from nav_helper_funcs import find_target, log_data
+from nav_helper_funcs import find_target
 import global_params as gp
 import dronekit
 
@@ -18,14 +18,14 @@ class Restart_State(Landing_State):
         if event == 'target_found':
             self.next_state = Initial_Descent_State(self.targ_sighting_loc)
 
-    def executeControl(self, vs, vehicle, out, log_name):
+    def executeControl(self, vs, vehicle, out):
         """ 
         Control loop. Searches for target. If it finds the target, 
         next_state is set to Initial_Descent_State. Otherwise,
         the drone rises vertically to 10 meters.
         """
 
-        x_m, y_m, x_pix, y_pix = find_target(vs, vehicle, out)
+        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
 
         if x_m is not None:  # if a target was found, x_m will not be None.
             set_next_state('target_found')
@@ -47,6 +47,7 @@ class Restart_State(Landing_State):
             vehicle.simple_goto(loc_des)
 
         log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
+        out.write(frame)
 
 
 class Initial_Descent_State(Landing_State):
@@ -58,7 +59,7 @@ class Initial_Descent_State(Landing_State):
         if event == 'target_lost':
             next_state = Lost_State(self.targ_sighting_loc)
 
-    def executeControl(self, vs, vehicle, out, log_name):
+    def executeControl(self, vs, vehicle, out):
         """ 
         Control loop. Searches for target. If it finds the target, 
         it proceeds either horizontally or verticall until it is 
@@ -67,7 +68,7 @@ class Initial_Descent_State(Landing_State):
         If no target is found, it switches to Lost_State.
         """
 
-        x_m, y_m, x_pix, y_pix = find_target(vs, vehicle)
+        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
 
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
@@ -105,7 +106,7 @@ class Final_Descent_State(Landing_State):
         elif event == 'landed':
             next_state = Landed_State()
 
-    def executeControl(self, vs, vehicle, out, log_name):
+    def executeControl(self, vs, vehicle, out):
         """ 
         Control loop. Searches for target. If it finds the target, 
         it sends a LANDING_TARGET_ENCODE sequence.
@@ -123,7 +124,7 @@ class Final_Descent_State(Landing_State):
                 set_next_state('landed')
                 return
 
-        x_m, y_m, x_pix, y_pix = find_target(vs, vehicle)
+        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
 
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
