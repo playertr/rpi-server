@@ -33,11 +33,18 @@ from pymavlink import mavutil
 
 
 def main():
+
+    vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
+
     # start input video stream
     vs = PiVideoStream(resolution=(
         og_horz_resolution, og_vert_resolution)).start()
+
     # wait for the camera to start
     time.sleep(0.5)
+
+    # determine framerate
+    fps = getFPS(vs, vehicle)
 
     # label this capture
     start_time = datetime.datetime.now().replace(microsecond=0).strftime(
@@ -45,15 +52,10 @@ def main():
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.cv.CV_FOURCC(*'DIVX')
-    video_file = "Captures/camera_cap_" + \
-        start_time + ".avi"
-
-    fps = getFPS(vs)
+    video_file = "Captures/camera_cap_" + start_time + ".avi"
 
     out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
                           (horizontal_resolution, vertical_resolution))
-
-    vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
 
     # Make Log headers
     log_name = 'Log/Bot_' + start_time + '.txt'

@@ -19,11 +19,15 @@ from dronekit import VehicleMode, connect
 from pymavlink import mavutil
 
 
-def getFPS(vs):
+def getFPS(vs, vehicle):
     """ Return an FPS object containing the framerate.
 
     Arguments:
         vs {PiVideoStream} -- The piCam input
+        vehicle {Vehicle} -- dronekit Vehicle object (required by find_target)
+
+    Returns:
+        [type] -- [description]
     """
 
     fps = FPS().start()
@@ -167,7 +171,7 @@ def log_data(file_name, vehicle, x_m, y_m, x_pix, y_pix):
     f.close()
 
 
-def find_target(vs):
+def find_target(vs, vehicle):
 
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
