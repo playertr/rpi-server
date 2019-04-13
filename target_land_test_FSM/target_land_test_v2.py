@@ -5,7 +5,7 @@
 # Questions? tplayer@hmc.edu, apham@hmc.edu
 # Development version 29 March 2019
 
-from global_params import og_horz_resolution, og_vert_resolution
+from global_params import og_horz_resolution, og_vert_resolution, horizontal_resolution, vertical_resolution
 from nav_helper_funcs import getFPS, make_headers
 
 from Landing_States import Initial_Descent_State, \
