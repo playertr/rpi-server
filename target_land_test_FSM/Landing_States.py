@@ -33,7 +33,7 @@ class Restart_State(Landing_State):
 
         else:
 
-            if targ_sighting_loc is None:
+            if self.targ_sighting_loc is None:
                 # find current location
                 loc_cur = vehicle.location.local_global_relative_frame
 
@@ -41,7 +41,7 @@ class Restart_State(Landing_State):
                 loc_des = dronekit.LocationGlobalRelative(
                     loc_cur.lat, loc_cur.lon, 10)
             else:
-                loc_des = targ_sighting_loc
+                loc_des = self.targ_sighting_loc
 
             vehicle.simple_goto(loc_des)
 
