@@ -35,7 +35,7 @@ class Restart_State(Landing_State):
 
             if self.targ_sighting_loc is None:
                 # find current location
-                loc_cur = vehicle.location.local_global_relative_frame
+                loc_cur = vehicle.location.global_relative_frame
 
                 # set desired location to have same lat, long but be 10 meters high
                 loc_des = dronekit.LocationGlobalRelative(
