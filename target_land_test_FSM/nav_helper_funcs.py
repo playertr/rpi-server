@@ -18,6 +18,28 @@ from dronekit import VehicleMode, connect
 from pymavlink import mavutil
 
 
+def getFPS(vs):
+    """ Return an FPS object containing the framerate.
+
+    Arguments:
+        vs {PiVideoStream} -- The piCam input
+    """
+
+    fps = FPS().start()
+    # Determine the frames per second of camera by running test loop 100 times
+    while fps._numFrames < 100:
+        # update the FPS counter and run through the image processing alg
+        find_target(vs)
+        fps.update()
+
+    # stop the timer and display FPS information
+    fps.stop()
+    print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+    print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+
+    return fps
+
+
 def make_headers(file_name):
 
     f = open(file_name, 'a+')

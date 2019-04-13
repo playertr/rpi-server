@@ -44,6 +44,9 @@ def main():
     fourcc = cv2.cv.CV_FOURCC(*'DIVX')
     video_file = "Captures/camera_cap_" + \
         start_time + ".avi"
+
+    fps = getFPS(vs)
+
     out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
                           (gp.horizontal_resolution, gp.vertical_resolution))
 
