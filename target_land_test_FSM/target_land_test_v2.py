@@ -36,6 +36,8 @@ def main():
     # start input video stream
     vs = PiVideoStream(resolution=(
         og_horz_resolution, og_vert_resolution)).start()
+    # wait for the camera to start
+    time.sleep(0.5)
 
     # label this capture
     start_time = datetime.datetime.now().replace(microsecond=0).strftime(

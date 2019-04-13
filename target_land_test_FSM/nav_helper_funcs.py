@@ -34,6 +34,7 @@ def getFPS(vs):
         # update the FPS counter and run through the image processing alg
         frame = vs.read()
         print("Line 36")
+        print(vs)
         print(frame)
         find_target(vs)
         fps.update()
