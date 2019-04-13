@@ -75,6 +75,7 @@ def main():
 
             # track memory leaks
             tracker.print_diff()
+            time.sleep(5)
 
         except (KeyboardInterrupt, SystemExit):
             break
