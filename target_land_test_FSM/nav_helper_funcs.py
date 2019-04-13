@@ -31,6 +31,9 @@ def getFPS(vs):
     # Determine the frames per second of camera by running test loop 100 times
     while fps._numFrames < 100:
         # update the FPS counter and run through the image processing alg
+
+        frame = vs.read()
+
         find_target(vs)
         fps.update()
 
