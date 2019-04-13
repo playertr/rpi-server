@@ -34,10 +34,6 @@ import pympler
 
 def main():
 
-    # track memory leaks
-    from pympler.tracker import SummaryTracker
-    tracker = SummaryTracker()
-
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
 
     # start input video stream
@@ -67,6 +63,10 @@ def main():
 
     # control loop
     state = Restart_State()
+
+    # track memory leaks
+    from pympler.tracker import SummaryTracker
+    tracker = SummaryTracker()
 
     while(repr(state) != "Landed_State"):
         try:
