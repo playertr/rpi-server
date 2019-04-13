@@ -12,7 +12,7 @@ class Landing_State(object):
 
     def __init__(self, targ_sighting_loc=None):
         self.next_state = self
-        self.targ_sightin_loc = targ_sighting_loc  # location of latest target sighting
+        self.targ_sighting_loc = targ_sighting_loc  # location of latest target sighting
         print 'Processing current state:', str(self)
 
     def transition(self):
