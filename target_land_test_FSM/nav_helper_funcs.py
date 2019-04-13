@@ -17,6 +17,7 @@ import numpy as np
 import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
+import math
 
 
 def getFPS(vs, vehicle):
