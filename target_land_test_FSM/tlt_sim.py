@@ -107,7 +107,7 @@ def main():
     # start input video stream
     #vs = PiVideoStream(resolution=(og_horz_resolution, og_vert_resolution)).start()
 
-    # vs.read() returns a tuple. I want the second item, Item 1. I want to dynamically replace every instance of vs.read() with vs.read()[1]. How do I override that function?
+    # vs.read() returns a tuple. I want the second item, Item 1. I want to dynamically replace every instance of vs.read() with vs.read()[1]. How do I override that function? With this class.
     class vidstream_wrapper():
         def __init__(self, vs):
             self.vs = vs
