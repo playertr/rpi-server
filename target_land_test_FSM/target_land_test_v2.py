@@ -6,7 +6,7 @@
 # Development version 29 March 2019
 
 from global_params import og_horz_resolution, og_vert_resolution, horizontal_resolution, vertical_resolution
-from nav_helper_funcs import getFPS, make_headers
+from nav_helper_funcs import getFPS, make_headers, terminate_flight
 
 from Landing_States import Restart_State, Initial_Descent_State, Final_Descent_State, Landed_State
 
@@ -64,9 +64,17 @@ def main():
 
     while(repr(state) != "Landed_State"):
         try:
+
+            ###########################
+            # Print the current frame
+            frame = vs.read()
+            cv2.imshow('frame', frame)
+            if cv2.waitKey(10) & 0xFF == ord('q'):
+                break
+            ###########################
+
             state.executeControl(vs, vehicle, out, log_name)
             state = state.transition()
-            time.sleep(5)
 
         except (KeyboardInterrupt, SystemExit):
             break
