@@ -24,8 +24,6 @@ import numpy as np
 import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
-import pympler
-
 
 #####################################################################
 # main method
@@ -64,17 +62,10 @@ def main():
     # control loop
     state = Restart_State()
 
-    # track memory leaks
-    from pympler.tracker import SummaryTracker
-    tracker = SummaryTracker()
-
     while(repr(state) != "Landed_State"):
         try:
             state.executeControl(vs, vehicle, out, log_name)
             state = state.transition()
-
-            # track memory leaks
-            tracker.print_diff()
             time.sleep(5)
 
         except (KeyboardInterrupt, SystemExit):
