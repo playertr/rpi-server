@@ -4,7 +4,7 @@
 # tplayer@hmc.edu
 
 from Landing_State import Landing_State
-from nav_helper_funcs import find_target, log_data
+from nav_helper_funcs import find_target, log_data, move_vel, move_pos
 import global_params as gp
 import dronekit
 
@@ -27,8 +27,8 @@ class Restart_State(Landing_State):
 
         x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
 
-        if x_m is not None:  # if a target was found, x_m will not be None.
-            set_next_state('target_found')
+        if x_m is not None:  # if a target was found, x_m won't be None.
+            self.set_next_state('target_found')
             # record this sighting
             self.targ_sighting_loc = vehicle.location.global_relative_frame
 
@@ -57,7 +57,7 @@ class Initial_Descent_State(Landing_State):
 
     def set_next_state(self, event):
         if event == 'target_lost':
-            next_state = Lost_State(self.targ_sighting_loc)
+            self.next_state = Restart_State(self.targ_sighting_loc)
 
     def executeControl(self, vs, vehicle, out, log_name):
         """ 
@@ -81,10 +81,10 @@ class Initial_Descent_State(Landing_State):
                 move_pos(vehicle, x_m, y_m, 0)
             else:
                 # go vertically
-                move_vert(vehicle, 0, 0, gp.descent_vel)
+                move_vel(vehicle, 0, 0, gp.descent_vel)
 
         else:
-            set_next_state('target_lost')
+            self.set_next_state('target_lost')
 
         log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
         out.write(frame)
@@ -102,9 +102,9 @@ class Final_Descent_State(Landing_State):
 
     def set_next_state(self, event):
         if event == 'target_lost':
-            next_state = Lost_State(self.targ_sighting_loc)
+            self.next_state = Lost_State(self.targ_sighting_loc)
         elif event == 'landed':
-            next_state = Landed_State()
+            self.next_state = Landed_State()
 
     def executeControl(self, vs, vehicle, out, log_name):
         """ 
@@ -121,7 +121,7 @@ class Final_Descent_State(Landing_State):
             if time_that_copter_stopped is None:
                 time_that_copter_stopped = time.clock()
             elif time.clock() - time_that_copter_stopped > gp.terminate_time:
-                set_next_state('landed')
+                self.set_next_state('landed')
                 return
 
         x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
@@ -137,7 +137,7 @@ class Final_Descent_State(Landing_State):
             send_land_message(x_pix, y_pix, dist)
 
         else:
-            set_next_state('target_lost')
+            self.set_next_state('target_lost')
 
         log_data(gp.log_name, vehicle, x_m, y_m, x_pix, y_pix)
         out.write(frame)

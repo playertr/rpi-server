@@ -5,10 +5,10 @@
 from global_params import horizontal_resolution, colorLower, colorHigher, colorHigher, min_radius, horizontal_fov, vertical_fov, horizontal_resolution, vertical_resolution, og_horz_resolution, og_vert_resolution
 from collections import deque
 from imutils.video import VideoStream
-from imutils.video.pivideostream import PiVideoStream
+#from imutils.video.pivideostream import PiVideoStream
 from imutils.video import FPS
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+#from picamera.array import PiRGBArray
+#from picamera import PiCamera
 import argparse
 import imutils
 import time
@@ -18,6 +18,7 @@ import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
 import math
+import pdb
 
 
 def getFPS(vs, vehicle):
@@ -91,6 +92,7 @@ def move_pos(vehicle, x, y, z):
         z {float} -- meters to move down
     """
 
+    print("moving position: {}".format([x, y, z]))
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
         0,
         0,
@@ -99,7 +101,16 @@ def move_pos(vehicle, x, y, z):
         0b110111111000,  # Position typemask
         x,  # dx forward (meters)
         y,  # dy right (meters)
-        z)  # dz down (meters)
+        z,  # dz down (meters)
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    )
 
     vehicle.send_mavlink(msg)
     vehicle.flush()
@@ -116,16 +127,24 @@ def move_vel(vehicle, vx, vy, vz):
         vy {float} -- m/s right
         vz {float} -- m/s down
     """
-
+    print("moving velocity: {}".format([vx, vy, vz]))
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
         0,
         0,
         0,
         mavutil.mavlink.MAV_FRAME_BODY_OFFSET_NED,
         0b110111000111,  # Velocity typemask
-        x,  # dx forward (meters)
-        y,  # dy right (meters)
-        z)  # dz down (meters)
+        0,
+        0,
+        0,
+        vx,  # dx forward (meters)
+        vy,  # dy right (meters)
+        vz,  # dz down (meters)
+        0,
+        0,
+        0,
+        0,  # yaw (0 is fwd)
+        0)  # yaw rate rad/s
 
     vehicle.send_mavlink(msg)
     vehicle.flush()
