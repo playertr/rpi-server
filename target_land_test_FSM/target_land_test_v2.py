@@ -58,6 +58,7 @@ def main():
     count = max(file_numbers(log_dir))
     count += 1
     count = format(count, '03')
+    import pdb
     pdb.set_trace()
 
     # Define the codec and create VideoWriter object
