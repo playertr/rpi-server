@@ -59,7 +59,7 @@ def main():
     script_dir = os.path.dirname(os.path.realpath('__file__'))
     log_dir_relative = r"Log"
     log_dir = os.path.join(script_dir, log_dir_relative)
-    count = max([0, file_numbers(log_dir]))
+    count = max([0, file_numbers(log_dir)])
     count += 1
     count = format(count, '03')
 
