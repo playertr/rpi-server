@@ -69,8 +69,8 @@ def main():
     while(repr(state) != "Landed_State"):
         try:
             # tr.print_diff()
-            sum1 = summary.summarize(muppy.get_objects())
-            summary.print_(sum1)
+            #sum1 = summary.summarize(muppy.get_objects())
+            # summary.print_(sum1)
 
             ###########################
             # Print the current frame
