@@ -67,35 +67,33 @@ def main():
     count += 1
     count = format(count, '03')
 
-
-]
     # Define the codec and create VideoWriter object
-    fourcc= cv2.cv.CV_FOURCC(*'DIVX')
-    video_file= "Captures/camera_cap_" + count + ".avi"
+    fourcc = cv2.cv.CV_FOURCC(*'DIVX')
+    video_file = "Captures/camera_cap_" + count + ".avi"
 
-    out= cv2.VideoWriter(video_file, fourcc, fps.fps(),
+    out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
                           (horizontal_resolution, vertical_resolution))
 
     # Make Log headers
-    log_name='Log/Bot_' + count + '.txt'
+    log_name = 'Log/Bot_' + count + '.txt'
     make_headers(log_name)
 
     # control loop
-    state=Restart_State()
+    state = Restart_State()
 
     while(repr(state) != "Landed_State"):
         try:
 
             ###########################
             # Print the current frame
-            frame=vs.read()
+            frame = vs.read()
             cv2.imshow('frame', frame)
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
             ###########################
 
             state.executeControl(vs, vehicle, out, log_name)
-            state=state.transition()
+            state = state.transition()
 
         except (KeyboardInterrupt, SystemExit):
             break
