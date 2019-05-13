@@ -61,12 +61,14 @@ def main():
 
     # control loop
     state = Restart_State()
-    from pympler import tracker
-    tr = tracker.SummaryTracker()
+    from pympler import tracker, summary
+    #tr = tracker.SummaryTracker()
 
     while(repr(state) != "Landed_State"):
         try:
-            tr.print_diff()
+            # tr.print_diff()
+            sum1 = summary.summarize(all_objects)
+            summary.print_(sum1)
 
             ###########################
             # Print the current frame
