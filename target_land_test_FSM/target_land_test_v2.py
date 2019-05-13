@@ -59,7 +59,7 @@ def main():
     log_dir_relative = r"Log"
     log_dir = os.path.join(script_dir, log_dir_relative)
     numbers = file_numbers(log_dir)
-    if numbers is None:
+    if not numbers:  # numbers is empty
         numbers = [0]
     count = max(numbers)
     count += 1
