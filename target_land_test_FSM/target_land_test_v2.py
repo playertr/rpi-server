@@ -25,6 +25,7 @@ import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
 import os
+import pdb
 
 #####################################################################
 # main method
@@ -60,11 +61,11 @@ def main():
     log_dir = os.path.join(script_dir, log_dir_relative)
     numbers = file_numbers(log_dir)
     if not numbers:  # numbers is empty
+        pdb.set_trace()
         numbers = [0]
     count = max(numbers)
     count += 1
     count = format(count, '03')
-    import pdb
     pdb.set_trace()
 
     # Define the codec and create VideoWriter object
