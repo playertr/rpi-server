@@ -52,7 +52,9 @@ def main():
     fourcc = cv2.cv.CV_FOURCC(*'DIVX')
     video_file = "Captures/camera_cap_" + start_time + ".avi"
 
-    out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
+    # out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
+    #                       (horizontal_resolution, vertical_resolution))
+    out = cv2.VideoWriter(video_file, fourcc, 30,
                           (horizontal_resolution, vertical_resolution))
 
     # Make Log headers
