@@ -81,7 +81,8 @@ def main():
             ###########################
 
             state.executeControl(vs, vehicle, out, log_name)
-            state = state.transition()
+            # DEBUG: DO NOT TRANSITION!
+            #state = state.transition()
 
         except (KeyboardInterrupt, SystemExit):
             break
