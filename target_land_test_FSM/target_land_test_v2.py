@@ -62,15 +62,8 @@ def main():
     # control loop
     state = Restart_State()
 
-    # track memory leaks
-    from pympler import tracker, summary, muppy
-    #tr = tracker.SummaryTracker()
-
     while(repr(state) != "Landed_State"):
         try:
-            # tr.print_diff()
-            sum1 = summary.summarize(muppy.get_objects())
-            summary.print_(sum1)
 
             ###########################
             # Print the current frame
