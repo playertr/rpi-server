@@ -42,8 +42,8 @@ def main():
     time.sleep(0.5)
 
     # determine framerate
-    fps = getFPS(vs, vehicle)
-
+    #fps = getFPS(vs, vehicle)
+    fps = 30  # DEBUG
     # label this capture
     start_time = datetime.datetime.now().replace(microsecond=0).strftime(
         '%y-%m-%d %H.%M.%S')
