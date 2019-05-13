@@ -46,22 +46,26 @@ def main():
     fps = getFPS(vs, vehicle)
 
     # determine the current counter number of the log file
-    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want.
+    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want. NOTE: you must seed with
     def file_numbers(fpath):
         for filename in os.listdir(fpath):
             name, _ = os.path.splitext(filename)
             try:
-                num = int(name[-3:])
                 yield int(name[-3:])
             except:
-                yield 0
+                print("Log files do not follow nameXXX.txt convention.")
 
     script_dir = os.path.dirname(os.path.realpath('__file__'))
     log_dir_relative = r"Log"
     log_dir = os.path.join(script_dir, log_dir_relative)
-    count = max([0, file_numbers(log_dir)])
+    numbers = file_numbers(log_dir)
+    if numbers is None:
+        numbers = [0]
+    count = max(numbers)
     count += 1
     count = format(count, '03')
+    import pdb
+    pdb.set_trace()
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.cv.CV_FOURCC(*'DIVX')
