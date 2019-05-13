@@ -63,6 +63,7 @@ def main():
     if not numbers:  # numbers is empty
         pdb.set_trace()
         numbers = [0]
+    pdb.set_trace()
     count = max(numbers)
     count += 1
     count = format(count, '03')
