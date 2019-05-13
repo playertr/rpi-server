@@ -24,6 +24,7 @@ import numpy as np
 import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
+import os
 
 #####################################################################
 # main method
@@ -44,19 +45,30 @@ def main():
     # determine framerate
     fps = getFPS(vs, vehicle)
 
-    # label this capture
-    start_time = datetime.datetime.now().replace(microsecond=0).strftime(
-        '%y-%m-%d %H.%M.%S')
+    # determine the current counter number of the log file
+    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want.
+    def file_numbers(fpath):
+        for filename in os.listdir(fpath):
+            name, _ = os.path.splitext(filename)
+            yield int(name[-3:])
+
+    script_dir = os.path.dirname(os.path.realpath('__file__'))
+    log_dir_relative = r"Log"
+    log_dir = os.path.join(script_dir, log_dir_relative)
+    count = max(file_numbers(log_dir))
+    count += 1
+    count = format(count, '03')
+    pdb.set_trace()
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.cv.CV_FOURCC(*'DIVX')
-    video_file = "Captures/camera_cap_" + start_time + ".avi"
+    video_file = "Captures/camera_cap_" + count + ".avi"
 
     out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
                           (horizontal_resolution, vertical_resolution))
 
     # Make Log headers
-    log_name = 'Log/Bot_' + start_time + '.txt'
+    log_name = 'Log/Bot_' + count + '.txt'
     make_headers(log_name)
 
     # control loop

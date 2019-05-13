@@ -98,7 +98,7 @@ class Final_Descent_State(Landing_State):
     def __init__(self):
         self.next_state = self
         self.time_that_copter_stopped = None
-        print 'Processing current state:', str(self)
+        print('Processing current state:', str(self))
 
     def set_next_state(self, event):
         if event == 'target_lost':
