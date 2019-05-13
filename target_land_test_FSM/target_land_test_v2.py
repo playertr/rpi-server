@@ -46,7 +46,7 @@ def main():
     fps = getFPS(vs, vehicle)
 
     # determine the current counter number of the log file
-    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want. NOTE: you must seed the
+    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want.
     def file_numbers(fpath):
         for filename in os.listdir(fpath):
             name, _ = os.path.splitext(filename)
@@ -59,7 +59,7 @@ def main():
     script_dir = os.path.dirname(os.path.realpath('__file__'))
     log_dir_relative = r"Log"
     log_dir = os.path.join(script_dir, log_dir_relative)
-    count = max(file_numbers(log_dir))
+    count = max([0, file_numbers(log_dir]))
     count += 1
     count = format(count, '03')
 
