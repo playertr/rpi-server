@@ -207,66 +207,66 @@ def find_target(vs, vehicle):
     # to have a maximum width of 400 pixels
     frame = vs.read()
 
-    frame = imutils.resize(
-        frame, width=horizontal_resolution, height=vertical_resolution)
+    # frame = imutils.resize(
+    #     frame, width=horizontal_resolution, height=vertical_resolution)
 
-    blurred = cv2.GaussianBlur(frame, (3, 3), 0)
-    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+    # blurred = cv2.GaussianBlur(frame, (3, 3), 0)
+    # hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
-    # construct a mask for the color "purple", then perform
-    # a series of dilations and erosions to remove any small
-    # blobs left in the mask
-    mask = cv2.inRange(hsv, colorLower, colorHigher)
-    mask = cv2.erode(mask, None, iterations=1)
-    mask = cv2.dilate(mask, None, iterations=1)
+    # # construct a mask for the color "purple", then perform
+    # # a series of dilations and erosions to remove any small
+    # # blobs left in the mask
+    # mask = cv2.inRange(hsv, colorLower, colorHigher)
+    # mask = cv2.erode(mask, None, iterations=1)
+    # mask = cv2.dilate(mask, None, iterations=1)
 
-    # find contours in the mask and initialize the current
-    # (x, y) center of the target
-    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
-                            cv2.CHAIN_APPROX_SIMPLE)
-    cnts = cnts[0]  # if imutils.is_cv2() else cnts[1]
-    center = None
+    # # find contours in the mask and initialize the current
+    # # (x, y) center of the target
+    # cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+    #                         cv2.CHAIN_APPROX_SIMPLE)
+    # cnts = cnts[0]  # if imutils.is_cv2() else cnts[1]
+    # center = None
 
     # initialize return values to None
     (x_m, y_m, x_pix, y_pix) = (None, None, None, None)
 
-    # only proceed if at least one contour was found
-    if len(cnts) > 0:
+    # # only proceed if at least one contour was found
+    # if len(cnts) > 0:
 
-        # find the largest contour in the mask, then use
-        # it to compute the minimum enclosing circle and
-        # centroid
-        c = max(cnts, key=cv2.contourArea)
-        ((x, y), radius) = cv2.minEnclosingCircle(c)
-        M = cv2.moments(c)
+    #     # find the largest contour in the mask, then use
+    #     # it to compute the minimum enclosing circle and
+    #     # centroid
+    #     c = max(cnts, key=cv2.contourArea)
+    #     ((x, y), radius) = cv2.minEnclosingCircle(c)
+    #     M = cv2.moments(c)
 
-        if M["m00"] != 0:
-            center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-        else:
-            center = (0, 0)
+    #     if M["m00"] != 0:
+    #         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+    #     else:
+    #         center = (0, 0)
 
-        # only proceed if the radius meets a minimum size
-        if radius > min_radius:
-            # print("Landing")
-            # draw the circle and centroid on the frame,
-            # then update the list of tracked points
-            # cv2.circle(frame, (int(x), int(y)), int(radius),
-            #    (255, 255, 0), 2)
-            cv2.circle(frame, center, 5, (0, 0, 255), -1)
+    #     # only proceed if the radius meets a minimum size
+    #     if radius > min_radius:
+    #         # print("Landing")
+    #         # draw the circle and centroid on the frame,
+    #         # then update the list of tracked points
+    #         # cv2.circle(frame, (int(x), int(y)), int(radius),
+    #         #    (255, 255, 0), 2)
+    #         cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
-            z = vehicle.location.global_relative_frame.alt
-            # print("Alt: ", z)
-            m_per_pix_x = (2*z*math.tan(horizontal_fov/2)) / \
-                horizontal_resolution
-            m_per_pix_y = (2*z*math.tan(vertical_fov/2)) / \
-                vertical_resolution
+    #         z = vehicle.location.global_relative_frame.alt
+    #         # print("Alt: ", z)
+    #         m_per_pix_x = (2*z*math.tan(horizontal_fov/2)) / \
+    #             horizontal_resolution
+    #         m_per_pix_y = (2*z*math.tan(vertical_fov/2)) / \
+    #             vertical_resolution
 
-            x_m = (x-horizontal_resolution/2)*m_per_pix_x
-            y_m = -(y-vertical_resolution/2)*m_per_pix_y
-            dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
-            x_pix = (x-horizontal_resolution/2) * \
-                horizontal_fov/horizontal_resolution
-            y_pix = (y-vertical_resolution/2) * \
-                vertical_fov/vertical_resolution
+    #         x_m = (x-horizontal_resolution/2)*m_per_pix_x
+    #         y_m = -(y-vertical_resolution/2)*m_per_pix_y
+    #         dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
+    #         x_pix = (x-horizontal_resolution/2) * \
+    #             horizontal_fov/horizontal_resolution
+    #         y_pix = (y-vertical_resolution/2) * \
+    #             vertical_fov/vertical_resolution
 
     return (x_m, y_m, x_pix, y_pix, frame)
