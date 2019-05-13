@@ -25,8 +25,8 @@ class Restart_State(Landing_State):
         the drone rises vertically to 10 meters.
         """
 
-        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
-
+        #x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
+        x_m, y_m, x_pix, y_pix, frame = (0, 0, 0, 0, None)
         if x_m is not None:  # if a target was found, x_m won't be None.
             self.set_next_state('target_found')
             # record this sighting
