@@ -49,12 +49,14 @@ def main():
     # determine the current counter number of the log file
     # this assumes the file format is 'nameXXX.txt' where XXX is the number we want. NOTE: you must seed with
     def file_numbers(fpath):
+        nums = []
         for filename in os.listdir(fpath):
             name, _ = os.path.splitext(filename)
             try:
-                yield int(name[-3:])
+                nums.append(int(name[-3:]))
             except:
                 print("Log files do not follow nameXXX.txt convention.")
+        return nums
 
     script_dir = os.path.dirname(os.path.realpath('__file__'))
     log_dir_relative = r"Log"
