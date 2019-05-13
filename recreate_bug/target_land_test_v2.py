@@ -80,7 +80,7 @@ def main():
                 break
             ###########################
 
-            state.executeControl(vs, vehicle, out, log_name)
+            #state.executeControl(vs, vehicle, out, log_name)
             # DEBUG: DO NOT TRANSITION!
             #state = state.transition()
 
