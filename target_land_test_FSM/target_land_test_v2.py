@@ -25,7 +25,6 @@ import datetime
 from dronekit import VehicleMode, connect
 from pymavlink import mavutil
 import os
-import pdb
 
 #####################################################################
 # main method
@@ -47,7 +46,7 @@ def main():
     fps = getFPS(vs, vehicle)
 
     # determine the current counter number of the log file
-    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want. NOTE: you must seed with
+    # this assumes the file format is 'nameXXX.txt' where XXX is the number we want.
     def file_numbers(fpath):
         nums = []
         for filename in os.listdir(fpath):
@@ -63,41 +62,40 @@ def main():
     log_dir = os.path.join(script_dir, log_dir_relative)
     numbers = file_numbers(log_dir)
     if not numbers:  # numbers is empty
-        pdb.set_trace()
         numbers = [0]
-    pdb.set_trace()
     count = max(numbers)
     count += 1
     count = format(count, '03')
-    pdb.set_trace()
 
+
+]
     # Define the codec and create VideoWriter object
-    fourcc = cv2.cv.CV_FOURCC(*'DIVX')
-    video_file = "Captures/camera_cap_" + count + ".avi"
+    fourcc= cv2.cv.CV_FOURCC(*'DIVX')
+    video_file= "Captures/camera_cap_" + count + ".avi"
 
-    out = cv2.VideoWriter(video_file, fourcc, fps.fps(),
+    out= cv2.VideoWriter(video_file, fourcc, fps.fps(),
                           (horizontal_resolution, vertical_resolution))
 
     # Make Log headers
-    log_name = 'Log/Bot_' + count + '.txt'
+    log_name='Log/Bot_' + count + '.txt'
     make_headers(log_name)
 
     # control loop
-    state = Restart_State()
+    state=Restart_State()
 
     while(repr(state) != "Landed_State"):
         try:
 
             ###########################
             # Print the current frame
-            frame = vs.read()
+            frame=vs.read()
             cv2.imshow('frame', frame)
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
             ###########################
 
             state.executeControl(vs, vehicle, out, log_name)
-            state = state.transition()
+            state=state.transition()
 
         except (KeyboardInterrupt, SystemExit):
             break
