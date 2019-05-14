@@ -56,7 +56,7 @@ def make_headers(file_name):
     f.close()
 
 
-def send_land_message(vehicle, y, dist):
+def send_land_message(vehicle, x, y, dist):
     """Sends MAV: LANDING_TARGET_ENCODE message to copter
 
     Arguments:
@@ -76,7 +76,6 @@ def send_land_message(vehicle, y, dist):
         y_rad,  # y-axis angular offset
         dist,      # distance to target, in meters
         0, 0)     # size of target in radians
-
     vehicle.mode = VehicleMode("LAND")
     vehicle.send_mavlink(msg)
     vehicle.flush()

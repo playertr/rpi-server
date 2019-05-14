@@ -9,6 +9,10 @@ import global_params as gp
 import dronekit
 import time
 import math
+<< << << < HEAD
+
+== == == =
+>>>>>> > 415b0e1a5a4ab6027addd958d4aa6832dbc82576
 
 
 class Restart_State(Landing_State):
@@ -63,9 +67,16 @@ class Initial_Descent_State(Landing_State):
         if event == 'target_lost':
             self.next_state = Restart_State(self.targ_sighting_loc)
         elif event == 'low_altitude':
-            self.next_state = Final_Descent_State(self.targ_sighting_loc=)
 
-    def executeControl(self, vs, vehicle, out, log_name):
+
+<< << << < HEAD
+self.next_state = Final_Descent_State(self.targ_sighting_loc=)
+== == == =
+self.next_state = Final_Descent_State()
+>>>>>> > 415b0e1a5a4ab6027addd958d4aa6832dbc82576
+
+
+def executeControl(self, vs, vehicle, out, log_name):
         """ 
         Control loop. Searches for target. If it finds the target, 
         it proceeds either horizontally or verticall until it is 
@@ -74,7 +85,9 @@ class Initial_Descent_State(Landing_State):
         If no target is found, it switches to Lost_State.
         """
         z = vehicle.location.global_relative_frame.alt
+
         if z < gp.final_descent_alt:  # if height < 4 meters
+
             self.set_next_state('low_altitude')
 
         x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
