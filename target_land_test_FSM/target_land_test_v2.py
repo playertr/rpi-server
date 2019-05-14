@@ -3,7 +3,7 @@
 # target_land_test_v2.py
 # Tim Player and Andrew Pham
 # Questions? tplayer@hmc.edu, apham@hmc.edu
-# Development version 29 March 2019
+# Development version 14 May 2019
 
 from global_params import og_horz_resolution, og_vert_resolution, horizontal_resolution, vertical_resolution
 from nav_helper_funcs import getFPS, make_headers, terminate_flight
@@ -83,15 +83,6 @@ def main():
 
     while(repr(state) != "Landed_State"):
         try:
-
-            ###########################
-            # Print the current frame
-            frame = vs.read()
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(10) & 0xFF == ord('q'):
-                break
-            ###########################
-
             state.executeControl(vs, vehicle, out, log_name)
             state = state.transition()
 

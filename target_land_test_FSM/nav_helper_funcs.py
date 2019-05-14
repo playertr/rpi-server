@@ -1,6 +1,6 @@
 # nav_helper_funcs.py
 # Tim Player
-# 3 April 2019
+# 14 May 2019
 
 from global_params import horizontal_resolution, colorLower, colorHigher, colorHigher, min_radius, horizontal_fov, vertical_fov, horizontal_resolution, vertical_resolution, og_horz_resolution, og_vert_resolution
 from collections import deque
@@ -56,7 +56,7 @@ def make_headers(file_name):
     f.close()
 
 
-def send_land_message(x, y, dist):
+def send_land_message(vehicle, y, dist):
     """Sends MAV: LANDING_TARGET_ENCODE message to copter
 
     Arguments:
@@ -76,6 +76,8 @@ def send_land_message(x, y, dist):
         y_rad,  # y-axis angular offset
         dist,      # distance to target, in meters
         0, 0)     # size of target in radians
+
+    vehicle.mode = VehicleMode("LAND")
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
@@ -111,7 +113,7 @@ def move_pos(vehicle, x, y, z):
         0,
         0
     )
-
+    vehicle.mode = VehicleMode("GUIDED")
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
@@ -145,7 +147,7 @@ def move_vel(vehicle, vx, vy, vz):
         0,
         0,  # yaw (0 is fwd)
         0)  # yaw rate rad/s
-
+    vehicle.mode = VehicleMode("GUIDED")
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
@@ -255,7 +257,7 @@ def find_target(vs, vehicle):
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
             z = vehicle.location.global_relative_frame.alt
-            # print("Alt: ", z)
+            print("Alt: ", z)
             m_per_pix_x = (2*z*math.tan(horizontal_fov/2)) / \
                 horizontal_resolution
             m_per_pix_y = (2*z*math.tan(vertical_fov/2)) / \

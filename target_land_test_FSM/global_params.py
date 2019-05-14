@@ -16,9 +16,14 @@ colorHigher = (220, 255, 255)
 # as a target
 min_radius = 10
 
+# in Restart_State, the height at which the drone should start its search (in meters)
+restart_height = 7
 
-descent_err = 2  # in Initial_Descent_State, the horizontal success radius
-descent_vel = 2  # in Initial_Descent_State, the vertical descent rat
+descent_err = 1.5  # in Initial_Descent_State, the horizontal success radius
+descent_vel = 0.2  # in Initial_Descent_State, the vertical descent rate
+
+# in Initial_Descent_State, the height at which Final_Descent_State should be triggered
+final_descent_alt = 4
 
 stopped_vel = 0.2  # 20 cm/s velocity means the vehicle has stopped
 terminate_time = 3  # after being landed for 3 seconds, disarm
