@@ -37,7 +37,9 @@ class Restart_State(Landing_State):
         # Search for the target. If found, issue a set_next_state event and record the location.
         x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
 
-        if x_m is not None:  # if a target was found, x_m won't be None.
+        z = vehicle.location.global_relative_frame.alt
+        # target must be found and altitude must be high
+        if x_m is not None and z > 5:  # if a target was found, x_m won't be None.
             self.set_next_state('target_found')
 
             # record this sighting
@@ -92,8 +94,7 @@ class Initial_Descent_State(Landing_State):
 
             # proceed horizontally or vertically.
             if (x_m*x_m + y_m*y_m) > gp.descent_err*gp.descent_err:
-
-                    # go horizontally
+                # go horizontally
                 move_pos(vehicle, -x_m, -y_m, 0)
             else:
                 # go vertically
