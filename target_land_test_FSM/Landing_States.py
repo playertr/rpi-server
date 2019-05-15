@@ -17,7 +17,7 @@ class Restart_State(Landing_State):
     """
 
     def __init__(self, targ_sighting_loc=None):
-        super(Restart_State, self).__init__(self, targ_sighting_loc)
+        super(Restart_State, self).__init__(targ_sighting_loc)
         self.command_issued = False
         self.destination_reached = False  # set in executeControl
         self.loc_des = None  # set in executeControl
