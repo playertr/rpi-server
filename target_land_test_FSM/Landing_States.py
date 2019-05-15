@@ -19,7 +19,7 @@ class Restart_State(Landing_State):
     def __init__(self, targ_sighting_loc=None):
         super(Restart_State, self).__init__(targ_sighting_loc)
         self.command_issued = False
-        self.destination_reached = False  # set in executeControl
+        self.destination_reached = False
         self.loc_des = None  # set in executeControl
 
     def set_next_state(self, event):
@@ -52,6 +52,7 @@ class Restart_State(Landing_State):
             else:
                 self.loc_des = self.targ_sighting_loc
             goto(vehicle, self.loc_des.lat, self.loc_des.lon, gp.restart_height)
+            self.command_issued = True
 
         # See whether the reset destination has been reached
         err = get_distance_meters(
