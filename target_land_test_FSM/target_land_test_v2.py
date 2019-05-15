@@ -66,6 +66,7 @@ def main():
     count = max(numbers)
     count += 1
     count = format(count, '03')
+    print("File Number: ", count)
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.cv.CV_FOURCC(*'DIVX')
