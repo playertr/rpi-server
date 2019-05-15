@@ -56,7 +56,7 @@ class Restart_State(Landing_State):
         # See whether the reset destination has been reached
         err = get_distance_meters(
             vehicle.location.global_relative_frame, self.loc_des)
-        self.destination_reached = (err < gp.restart_err):
+        self.destination_reached = (err < gp.restart_err)
 
         log_data(log_name, vehicle, x_m, y_m, x_pix, y_pix)
         out.write(frame)
