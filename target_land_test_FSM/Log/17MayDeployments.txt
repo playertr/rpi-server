@@ -1,0 +1,155 @@
+5/17/19 Deployments
+Conditions:
+Partly cloudy but bright. Not too windy.
+
+BOT_089:
+    Tried the new PLND_EST_TYPE. Didn't seem to work, plus took a long time to set/send. It looks like the send_land_message VehicleMode was still on GUIDED -- that is wrong.
+BOT_090:
+    Changed VehicleMode to LAND, with PLND_EST_TYPE=0. Psychotic wasp. Identified bug: in find_target
+            x_pix = (x-horizontal_resolution/2) * \
+                horizontal_fov/horizontal_resolution
+            y_pix = (y-vertical_resolution/2) * \
+                vertical_fov/vertical_resolution
+
+        when actually that gives the angle in radians.
+
+BOT_092:
+    Very good landing. I changed find_target to return x_rad, y_rad. The copter rather jerkily came down directly on the target.
+
+BOT_093: 
+    The same. 
+
+BOT_094:
+    I changed PLND_EST_TYPE to 1 (EKF) again. Result: psychotic wasp.
+
+UNLABELED.
+    Original code. PLND_EST_TYPE = 1. Psychotic wasp --> crash
+
+BOT_096:
+    PLND_EST_TYPE=0. Beautiful landing. Wiggles its way downward.
+
+UNLABELED.
+    Original code. PLND_EST_TYPE=1. Pyschotic wasp --> crash. Got a video. 12:37 PM.
+BOT_098:
+    PLND_EST_TYPE=1. Beautiful. Got video. 12:41.
+
+BOT_099:
+    Another beautiful trial. On video. 12:42.
+
+BOT_100:
+    Beautiful trial. On video. 12:43.
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.86
+[INFO] approx. FPS: 53.66
+['File Number: ', '100']
+Processing current state: Restart_State
+going to position: [34.1059603, -117.705009, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.105959, -117.7050052, 5]
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.94
+[INFO] approx. FPS: 51.57
+['File Number: ', '099']
+Processing current state: Restart_State
+going to position: [34.1059506, -117.7050066, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1059553, -117.7050102, 5]
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.94
+[INFO] approx. FPS: 51.65
+['File Number: ', '098']
+Processing current state: Restart_State
+going to position: [34.1059535, -117.7050117, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.105955, -117.705008, 5]
+
+pi@raspberrypi:~/Desktop $ python target_land_test.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.42
+[INFO] approx. FPS: 70.31
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.94
+[INFO] approx. FPS: 51.44
+['File Number: ', '096']
+Processing current state: Restart_State
+going to position: [34.1059519, -117.7050108, 5]
+Processing current state: Final_Descent_State
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.84
+[INFO] approx. FPS: 54.33
+['File Number: ', '093']
+Processing current state: Restart_State
+going to position: [34.1059509, -117.7050038, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1059486, -117.705004, 5]
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.96
+[INFO] approx. FPS: 50.91
+['File Number: ', '092']
+Processing current state: Restart_State
+going to position: [34.1059585, -117.7050077, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1059523, -117.7050093, 5]
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+>>> EKF2 IMU1 in-flight yaw alignment complete
+>>> EKF2 IMU0 in-flight yaw alignment complete
+PLND_EST_TYPE: 0.0
+[INFO] elasped time: 1.89
+[INFO] approx. FPS: 52.87
+['File Number: ', '090']
+Processing current state: Restart_State
+going to position: [34.1059297, -117.7049831, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1059295, -117.7049829, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1059276, -117.70498, 5]

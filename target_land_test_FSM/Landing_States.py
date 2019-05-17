@@ -152,7 +152,7 @@ class Final_Descent_State(Landing_State):
         #         self.set_next_state('landed')
         #         return
 
-        x_m, y_m, x_pix, y_pix, frame = find_target(vs, vehicle)
+        x_m, y_m, x_rad, y_rad, frame = find_target(vs, vehicle)
 
         if x_m is not None:  # if a target was found, x_m will not be None.
             # record this sighting
@@ -161,8 +161,7 @@ class Final_Descent_State(Landing_State):
             # calculate distance
             z = vehicle.location.global_relative_frame.alt
             dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
-
-            send_land_message(vehicle, x_pix, y_pix, dist)
+            send_land_message(vehicle, x_rad, y_rad, dist)
 
         else:
             self.set_next_state('target_lost')

@@ -3,7 +3,7 @@
 # target_land_test_v2.py
 # Tim Player and Andrew Pham
 # Questions? tplayer@hmc.edu, apham@hmc.edu
-# Development version 14 May 2019
+# Development version 17 May 2019
 
 from global_params import og_horz_resolution, og_vert_resolution, horizontal_resolution, vertical_resolution
 from nav_helper_funcs import getFPS, make_headers, terminate_flight
@@ -34,15 +34,13 @@ import os
 def main():
 
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
-    vehicle.parameters['PLND_ENABLED'] = 1
-    vehicle.parameters['PLND_TYPE'] = 1  # companion computer
-    vehicle.parameters['PLND_EST_TYPE'] = 0  # raw sensor input
-    vehicle.flush()
 
-    time.sleep(0.5)
-    print "PLND_ENABLED: %s" % vehicle.parameters['PLND_ENABLED']
-    print "PLND_TYPE: %s" % vehicle.parameters['PLND_TYPE']
-    print "PLND_EST_TYPE: %s" % vehicle.parameters['PLND_EST_TYPE']
+    # already done.
+    # vehicle.parameters['PLND_EST_TYPE'] = 0  # raw sensor input
+    # vehicle.flush()
+
+    # time.sleep(0.5)
+    #print "PLND_EST_TYPE: %s" % vehicle.parameters['PLND_EST_TYPE']
 
     # start input video stream
     vs = PiVideoStream(resolution=(

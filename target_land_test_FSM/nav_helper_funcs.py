@@ -1,6 +1,6 @@
 # nav_helper_funcs.py
 # Tim Player
-# 14 May 2019
+# 17 May 2019
 
 from global_params import horizontal_resolution, colorLower, colorHigher, colorHigher, min_radius, horizontal_fov, vertical_fov, horizontal_resolution, vertical_resolution, og_horz_resolution, og_vert_resolution
 from collections import deque
@@ -56,17 +56,14 @@ def make_headers(file_name):
     f.close()
 
 
-def send_land_message(vehicle, x, y, dist):
+def send_land_message(vehicle, x_rad, y_Rad, dist):
     """Sends MAV: LANDING_TARGET_ENCODE message to copter
 
     Arguments:
-        x {int} -- target x centroid in pixels
-        y {int} -- target y centroid in pixels
+        x {int} -- target x centroid LOS angle in radians
+        y {int} -- target y centroid LOS angle in radians
         dist {[type]} -- [description]
     """
-    # radians
-    x_rad = (x-horizontal_resolution/2)*horizontal_fov/horizontal_resolution
-    y_rad = (y-vertical_resolution/2)*vertical_fov/vertical_resolution
 
     msg = vehicle.message_factory.landing_target_encode(
         0,       # time_boot_ms (not used)
@@ -76,7 +73,7 @@ def send_land_message(vehicle, x, y, dist):
         y_rad,  # y-axis angular offset
         dist,      # distance to target, in meters
         0, 0)     # size of target in radians
-    vehicle.mode = VehicleMode("GUIDED")
+    vehicle.mode = VehicleMode("LAND")
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
@@ -267,7 +264,7 @@ def find_target(vs, vehicle):
     center = None
 
     # initialize return values to None
-    (x_m, y_m, x_pix, y_pix) = (None, None, None, None)
+    (x_m, y_m, x_rad, y_rad) = (None, None, None, None)
 
     # only proceed if at least one contour was found
     if len(cnts) > 0:
@@ -303,9 +300,9 @@ def find_target(vs, vehicle):
             x_m = (x-horizontal_resolution/2)*m_per_pix_x
             y_m = -(y-vertical_resolution/2)*m_per_pix_y
             dist = math.sqrt(x_m*x_m + y_m*y_m + z*z)
-            x_pix = (x-horizontal_resolution/2) * \
+            x_rad = (x-horizontal_resolution/2) * \
                 horizontal_fov/horizontal_resolution
-            y_pix = (y-vertical_resolution/2) * \
+            y_rad = (y-vertical_resolution/2) * \
                 vertical_fov/vertical_resolution
 
-    return (x_m, y_m, x_pix, y_pix, frame)
+    return (x_m, y_m, x_rad, y_rad, frame)
