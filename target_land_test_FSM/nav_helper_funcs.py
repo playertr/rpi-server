@@ -52,7 +52,7 @@ def make_headers(file_name):
 
     f = open(file_name, 'a+')
     f.write('{0} {1:^1} {2:^1} {3:^1} {4:^1} {5:^1} {6:^1}\n'.format(
-        'Lat', 'Lon', 'Alt', 'X-plat', 'Y-plat', 'X-px', "Y-px"))
+        'Lat', 'Lon', 'Alt', 'X-plat', 'Y-plat', 'X-rad', "Y-rad"))
     f.close()
 
 

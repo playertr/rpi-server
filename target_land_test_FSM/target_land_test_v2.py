@@ -34,9 +34,7 @@ import os
 def main():
 
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
-
-    # already done.
-    # vehicle.parameters['PLND_EST_TYPE'] = 0  # raw sensor input
+    # vehicle.parameters['PLND_EST_TYPE'] = 0  #  raw output
     # vehicle.flush()
 
     # time.sleep(0.5)
