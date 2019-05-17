@@ -34,6 +34,9 @@ import os
 def main():
 
     vehicle = connect('/dev/serial0', wait_ready=False, baud=57600)
+    vehicle.parameters['PLND_ENABLED'] = 1
+    vehicle.parameters['PLND_TYPE'] = 1  # Mavlink landing backend
+    vehicle.flush()
 
     # start input video stream
     vs = PiVideoStream(resolution=(

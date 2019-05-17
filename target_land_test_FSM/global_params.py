@@ -23,8 +23,10 @@ restart_err = 1  # the success radius for restart destination
 descent_err = 2  # in Initial_Descent_State, the horizontal success radius
 descent_vel = 0.4  # in Initial_Descent_State, the vertical descent rate
 
+time_till_lost = 3
+
 # in Initial_Descent_State, the height at which Final_Descent_State should be triggered
-final_descent_alt = 3
+final_descent_alt = 4
 
 stopped_vel = 0.2  # 20 cm/s velocity means the vehicle has stopped
 terminate_time = 3  # after being landed for 3 seconds, disarm

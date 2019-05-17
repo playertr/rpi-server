@@ -76,9 +76,10 @@ def send_land_message(vehicle, x, y, dist):
         y_rad,  # y-axis angular offset
         dist,      # distance to target, in meters
         0, 0)     # size of target in radians
-    vehicle.mode = VehicleMode("LAND")
+    vehicle.mode = VehicleMode("GUIDED")
     vehicle.send_mavlink(msg)
     vehicle.flush()
+
 
 def goto(vehicle, lat, lon, z):
     print("going to position: {}".format([lat, lon, z]))
@@ -88,8 +89,8 @@ def goto(vehicle, lat, lon, z):
         0,
         mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT_INT,
         0b110111111000,  # Position typemask
-        int(lat* 10**7),  # latitude
-        int(lon* 10**7 ),  # longitude
+        int(lat * 10**7),  # latitude
+        int(lon * 10**7),  # longitude
         z,  # altitude in meters above home position
         0,
         0,
@@ -103,6 +104,7 @@ def goto(vehicle, lat, lon, z):
     vehicle.mode = VehicleMode("GUIDED")
     vehicle.send_mavlink(msg)
     vehicle.flush()
+
 
 def goto(vehicle, lat, lon, z):
     print("going to position: {}".format([lat, lon, z]))
