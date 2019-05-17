@@ -40,9 +40,9 @@ def main():
     vehicle.flush()
 
     time.sleep(0.5)
-    print "Param: %s" % vehicle.parameters['PLND_ENABLED']
-    print "Param: %s" % vehicle.parameters['PLND_TYPE']
-    print "Param: %s" % vehicle.parameters['PLND_EST_TYPE']
+    print "PLND_ENABLED: %s" % vehicle.parameters['PLND_ENABLED']
+    print "PLND_TYPE: %s" % vehicle.parameters['PLND_TYPE']
+    print "PLND_EST_TYPE: %s" % vehicle.parameters['PLND_EST_TYPE']
 
     # start input video stream
     vs = PiVideoStream(resolution=(
