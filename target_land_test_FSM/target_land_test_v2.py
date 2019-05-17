@@ -39,6 +39,11 @@ def main():
     vehicle.parameters['PLND_EST_TYPE'] = 0  # raw sensor input
     vehicle.flush()
 
+    time.sleep(0.5)
+    print "Param: %s" % vehicle.parameters['PLND_ENABLED']
+    print "Param: %s" % vehicle.parameters['PLND_TYPE']
+    print "Param: %s" % vehicle.parameters['PLND_EST_TYPE']
+
     # start input video stream
     vs = PiVideoStream(resolution=(
         og_horz_resolution, og_vert_resolution)).start()
