@@ -17,11 +17,12 @@ colorHigher = (255, 255, 255)
 min_radius = 10
 
 # in Restart_State, the height at which the drone should start its search (in meters)
-restart_height = 7
+restart_height = 5
 restart_err = 1  # the success radius for restart destination
 
-descent_err = 2  # in Initial_Descent_State, the horizontal success radius
+descent_err = 1  # in Initial_Descent_State, the horizontal success radius
 descent_vel = 0.4  # in Initial_Descent_State, the vertical descent rate
+time_till_lost = 4
 
 time_till_lost = 3
 
