@@ -49,10 +49,39 @@ def getFPS(vs, vehicle):
 
 
 def make_headers(file_name):
+    """ Open a file and append the header line.
+
+    Arguments:
+        file_name {String} -- relative filepath
+    """
 
     f = open(file_name, 'a+')
     f.write('{0} {1:^1} {2:^1} {3:^1} {4:^1} {5:^1} {6:^1}\n'.format(
         'Lat', 'Lon', 'Alt', 'X-plat', 'Y-plat', 'X-rad', "Y-rad"))
+    f.close()
+
+
+def log_data(file_name, vehicle, x_m, y_m, x_rad, y_rad):
+    """ Record the data.
+
+    Arguments:
+        file_name {String} -- relative filepath
+        vehicle {Vehicle} -- the UAV Vehicle object
+        x_m {[type]} -- x meters to target
+        y_m {[type]} -- y meters to target
+        x_rad {[type]} -- x radians to target
+        y_rad {[type]} -- y radians to target
+    """
+
+    f = open(file_name, 'a+')
+
+    # edit this line to have data logging of the data you care about
+    data = [str(x) for x in [vehicle.location.global_relative_frame.lat,
+                             vehicle.location.global_relative_frame.lon,
+                             vehicle.location.global_relative_frame.alt,
+                             x_m, y_m, x_rad, y_rad]]
+
+    f.write(' '.join(data) + '\n')
     f.close()
 
 
@@ -79,6 +108,15 @@ def send_land_message(vehicle, x_rad, y_Rad, dist):
 
 
 def goto(vehicle, lat, lon, z):
+    """
+    Using the Mav SET_POSITION_TARGET_GLOBAL message, sets a position target.
+
+    Arguments:
+        vehicle {Vehicle} -- dronekit Vehicle object
+        lat {float} -- desired latitude
+        lon {float} --  desired longitude
+        z {float} -- desired altitude above EKF origin (ground)
+    """
     print("going to position: {}".format([lat, lon, z]))
     msg = vehicle.message_factory.set_position_target_global_int_encode(
         0,
@@ -103,130 +141,6 @@ def goto(vehicle, lat, lon, z):
     vehicle.flush()
 
 
-def get_distance_meters(aLocation1, aLocation2):
-    """
-    Returns the ground distance in metres between two LocationGlobal objects.
-
-    This method is an approximation, and will not be accurate over large distances and close to the 
-    earth's poles. It comes from the ArduPilot test code: 
-    https://github.com/diydrones/ardupilot/blob/master/Tools/autotest/common.py
-    """
-    dlat = aLocation2.lat - aLocation1.lat
-    dlong = aLocation2.lon - aLocation1.lon
-    return math.sqrt((dlat*dlat) + (dlong*dlong)) * 1.113195e5
-
-
-def move_pos(vehicle, x, y, z):
-    """
-    Move, in the body frame, x meters forward, y meters right, and z 
-    meters down
-
-    Arguments:
-        vehicle {Vehicle} -- dronekit Vehicle object
-        x {float} -- meters to move forward
-        y {float} --  meters to move right
-        z {float} -- meters to move down
-    """
-
-    print("moving position: {}".format([x, y, z]))
-    msg = vehicle.message_factory.set_position_target_local_ned_encode(
-        0,
-        0,
-        0,
-        mavutil.mavlink.MAV_FRAME_BODY_OFFSET_NED,
-        0b110111111000,  # Position typemask
-        x,  # dx forward (meters)
-        y,  # dy right (meters)
-        z,  # dz down (meters)
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-    )
-    vehicle.mode = VehicleMode("GUIDED")
-    vehicle.send_mavlink(msg)
-    vehicle.flush()
-
-
-def move_vel(vehicle, vx, vy, vz):
-    """
-    Move, in the body-oriented frame, x m/s forward, y m/s right, and z 
-    m/s down
-
-    Arguments:
-        vehicle {Vehicle} -- dronekit Vehicle object
-        vx {float} -- m/s forward
-        vy {float} -- m/s right
-        vz {float} -- m/s down
-    """
-    print("moving velocity: {}".format([vx, vy, vz]))
-    msg = vehicle.message_factory.set_position_target_local_ned_encode(
-        0,
-        0,
-        0,
-        mavutil.mavlink.MAV_FRAME_BODY_OFFSET_NED,
-        0b110111000111,  # Velocity typemask
-        0,
-        0,
-        0,
-        vx,  # dx forward (meters)
-        vy,  # dy right (meters)
-        vz,  # dz down (meters)
-        0,
-        0,
-        0,
-        0,  # yaw (0 is fwd)
-        0)  # yaw rate rad/s
-    vehicle.mode = VehicleMode("GUIDED")
-    vehicle.send_mavlink(msg)
-    vehicle.flush()
-
-
-def terminate_flight(vehicle):
-    """
-    Sends a MAV_CMD_DO_FLIGHTTERMINATION message. Immediately kills motors,
-    causing the copter to a) fall from the air, or b) cease to macerate your
-    fingers.
-
-    May currently have the wrong number of parameters.
-
-    https://mavlink.io/en/messages/common.html#MAV_CMD_DO_FLIGHTTERMINATION
-
-    Arguments:
-        vehicle {Vehicle} -- dronekit Vehicle object
-    """
-    msg = vehicle.message_factory.command_long_encode(
-        0, 0,    # target_system, target_component
-        mavutil.mavlink.MAV_CMD_DO_FLIGHTTERMINATION,  # command
-        1,  # confirmation
-        0,    # param 1, yaw in degrees
-        0,          # param 2, yaw speed deg/s
-        0,          # param 3, direction -1 ccw, 1 cw
-        0,  # param 4, relative offset 1, absolute angle 0
-        0, 0, 0)    # param 5 ~ 7 not used
-
-    vehicle.send_mavlink(msg)
-    vehicle.flush()
-
-
-def log_data(file_name, vehicle, x_m, y_m, x_pix, y_pix):
-
-    f = open(file_name, 'a+')
-
-    # edit this line to have data logging of the data you care about
-    data = [str(x) for x in [vehicle.location.global_relative_frame.lat,
-                             vehicle.location.global_relative_frame.lon,
-                             vehicle.location.global_relative_frame.alt,
-                             x_m, y_m, x_pix, y_pix]]
-
-    f.write(' '.join(data) + '\n')
-    f.close()
-
-
 def find_target(vs, vehicle):
     """
     Computes the lateral displacement in meters and pixels of the target from the drone. Writes the image to the output video stream.
@@ -236,7 +150,7 @@ def find_target(vs, vehicle):
         vehicle {Vehicle} -- dronekit Vehicle object to find altitude
 
     Returns:
-        (x_m, y_m, x_pix, y_pix, frame) -- lateral displacement in meters and pixels, plus video image
+        (x_m, y_m, x_rad, y_rad, frame) -- lateral displacement in meters and radians, plus video image
     """
 
     # grab the frame from the threaded video stream and resize it
@@ -306,3 +220,120 @@ def find_target(vs, vehicle):
                 vertical_fov/vertical_resolution
 
     return (x_m, y_m, x_rad, y_rad, frame)
+
+
+def get_distance_meters(aLocation1, aLocation2):
+    """
+    Returns the ground distance in metres between two LocationGlobal objects.
+
+    This method is an approximation, and will not be accurate over large distances and close to the 
+    earth's poles. It comes from the ArduPilot test code: 
+    https://github.com/diydrones/ardupilot/blob/master/Tools/autotest/common.py
+    """
+    dlat = aLocation2.lat - aLocation1.lat
+    dlong = aLocation2.lon - aLocation1.lon
+    return math.sqrt((dlat*dlat) + (dlong*dlong)) * 1.113195e5
+
+
+def terminate_flight(vehicle):
+    """
+    NOT CURRENTLY DEBUGGED.
+
+    Sends a MAV_CMD_DO_FLIGHTTERMINATION message. Immediately kills motors,
+    causing the copter to a) fall from the air, or b) cease to macerate your
+    fingers.
+
+    https://mavlink.io/en/messages/common.html#MAV_CMD_DO_FLIGHTTERMINATION
+
+    Arguments:
+        vehicle {Vehicle} -- dronekit Vehicle object
+    """
+    msg = vehicle.message_factory.command_long_encode(
+        0, 0,    # target_system, target_component
+        mavutil.mavlink.MAV_CMD_DO_FLIGHTTERMINATION,  # command
+        1,  # confirmation
+        0,    # param 1, yaw in degrees
+        0,          # param 2, yaw speed deg/s
+        0,          # param 3, direction -1 ccw, 1 cw
+        0,  # param 4, relative offset 1, absolute angle 0
+        0, 0, 0)    # param 5 ~ 7 not used
+
+    vehicle.send_mavlink(msg)
+    vehicle.flush()
+
+
+# def move_pos(vehicle, x, y, z):
+#     """
+#     \deprecated
+
+#     DEPRECATED DUE TO ERRATIC BEHAVIOR.
+
+#     Move, in the body frame, x meters forward, y meters right, and z
+#     meters down
+
+#     Arguments:
+#         vehicle {Vehicle} -- dronekit Vehicle object
+#         x {float} -- meters to move forward
+#         y {float} --  meters to move right
+#         z {float} -- meters to move down
+#     """
+
+#     print("moving position: {}".format([x, y, z]))
+#     msg = vehicle.message_factory.set_position_target_local_ned_encode(
+#         0,
+#         0,
+#         0,
+#         mavutil.mavlink.MAV_FRAME_BODY_OFFSET_NED,
+#         0b110111111000,  # Position typemask
+#         x,  # dx forward (meters)
+#         y,  # dy right (meters)
+#         z,  # dz down (meters)
+#         0,
+#         0,
+#         0,
+#         0,
+#         0,
+#         0,
+#         0,
+#         0
+#     )
+#     vehicle.mode = VehicleMode("GUIDED")
+#     vehicle.send_mavlink(msg)
+#     vehicle.flush()
+
+
+# def move_vel(vehicle, vx, vy, vz):
+#     """
+#     \deprecated
+#     DEPRECATED DUE TO ERRATIC BEHAVIOR
+
+#     Move, in the body-oriented frame, x m/s forward, y m/s right, and z
+#     m/s down
+
+#     Arguments:
+#         vehicle {Vehicle} -- dronekit Vehicle object
+#         vx {float} -- m/s forward
+#         vy {float} -- m/s right
+#         vz {float} -- m/s down
+#     """
+#     print("moving velocity: {}".format([vx, vy, vz]))
+#     msg = vehicle.message_factory.set_position_target_local_ned_encode(
+#         0,
+#         0,
+#         0,
+#         mavutil.mavlink.MAV_FRAME_BODY_OFFSET_NED,
+#         0b110111000111,  # Velocity typemask
+#         0,
+#         0,
+#         0,
+#         vx,  # dx forward (meters)
+#         vy,  # dy right (meters)
+#         vz,  # dz down (meters)
+#         0,
+#         0,
+#         0,
+#         0,  # yaw (0 is fwd)
+#         0)  # yaw rate rad/s
+#     vehicle.mode = VehicleMode("GUIDED")
+#     vehicle.send_mavlink(msg)
+#     vehicle.flush()

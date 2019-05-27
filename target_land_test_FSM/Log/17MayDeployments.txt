@@ -31,13 +31,206 @@ BOT_096:
 UNLABELED.
     Original code. PLND_EST_TYPE=1. Pyschotic wasp --> crash. Got a video. 12:37 PM.
 BOT_098:
-    PLND_EST_TYPE=1. Beautiful. Got video. 12:41.
+    PLND_EST_TYPE=0. Beautiful. Got video. 12:41.
 
 BOT_099:
     Another beautiful trial. On video. 12:42.
 
 BOT_100:
     Beautiful trial. On video. 12:43.
+
+BOT_102:
+    Beautiful. Video. 6:07.
+
+BOT_103:
+    Beautiful, plus I started a couple meters east.6:09.
+
+BOT_104:
+    Beautiful. Started a couple meters northwest. 6:10.
+
+BOT_105:
+    Beautemous. Started a couple meters south. 6:13.
+
+BOT_106:
+    Very good. Started at about 10 meters, so it dropped precipitously before entering Final_Descent_State. Landed about half a drone-width to the east. 6:15.
+BOT_107:
+    Nice landing, again. Landed halfway on the colored target. The descent rate is pretty fast. That's not great, but it's set in land_control.cpp. 
+
+BOT_108:
+    Nice landing. Started from 3 meters west of target. While it descended so fast, it entered damped oscillation. It happened to land while it was centered. No video.
+
+BOT_111:
+    Did not see the drone. I'll check the log. It looks like it saw the drone just fine -- maybe the success radius is too small and that's why it's not entering Final_Descent_State.
+
+BOT_112:
+    Good landing. Took a little while to find, though.
+
+BOT_113:
+    Another good landing. I think there may be a slight problem in the goto command, in which it isn't reaching the destination. Setting a 2 meter tolerance seemed to do the trick. (Maybe the primary EKF needs tuning? Or it could be a relatively GPS-denied environment)
+
+
+BOT_114:
+    Target outside FOV.
+
+BOT_115:
+    Made destination_reached toggle. Beautiful landing.
+
+BOT_116:
+    Pretty good. Landed about a copter-length off.
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.87
+[INFO] approx. FPS: 53.52
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '116']
+Processing current state: Restart_State
+going to position: [34.1054108, -117.7050725, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1054061, -117.7050836, 5]
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.93
+[INFO] approx. FPS: 51.86
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '113']
+Processing current state: Restart_State
+going to position: [34.1054084, -117.7051111, 5]
+Processing current state: Final_Descent_State
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 2.06
+[INFO] approx. FPS: 48.51
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '112']
+Processing current state: Restart_State
+going to position: [34.1054036, -117.7051069, 5]
+Processing current state: Final_Descent_State
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.95
+[INFO] approx. FPS: 51.25
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '111']
+Processing current state: Restart_State
+going to position: [34.1054052, -117.70509, 5]
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.83
+[INFO] approx. FPS: 54.70
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '108']
+Processing current state: Restart_State
+going to position: [34.1053967, -117.7051034, 5]
+Processing current state: Final_Descent_State
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.92
+[INFO] approx. FPS: 52.18
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '107']
+Processing current state: Restart_State
+going to position: [34.1054193, -117.7050859, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1054078, -117.7050791, 5]
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.94
+[INFO] approx. FPS: 51.55
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '106']
+Processing current state: Restart_State
+going to position: [34.1054026, -117.7050743, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1054026, -117.7050751, 5]
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 2.04
+[INFO] approx. FPS: 48.96
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '105']
+Processing current state: Restart_State
+going to position: [34.1053803, -117.7050743, 5]
+Processing current state: Final_Descent_State
+Processing current state: Restart_State
+going to position: [34.1054009, -117.7050782, 5]
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.98
+[INFO] approx. FPS: 50.51
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '104']
+Processing current state: Restart_State
+going to position: [34.1054197, -117.7050932, 5]
+Processing current state: Final_Descent_State
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_lantest_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.90
+[INFO] approx. FPS: 52.54
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '103']
+Processing current state: Restart_State
+going to position: [34.1054039, -117.7050763, 5]
+Processing current state: Final_Descent_State
+
+
+pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
+>>> APM:Copter V3.5.0-rc10 (c85c9578)
+>>> PX4: 33825946 NuttX: 1a99ba58
+>>> Frame: QUAD
+>>> PX4v3 00200035 31375105 33343537
+[INFO] elasped time: 1.94
+[INFO] approx. FPS: 51.60
+Log files do not follow nameXXX.txt convention.
+['File Number: ', '102']
+Processing current state: Restart_State
+going to position: [34.1054035, -117.70509, 5]
+Processing current state: Final_Descent_State
 
 pi@raspberrypi:~/Desktop/rpi-server/target_land_test_FSM $ python target_land_test_v2.py 
 >>> APM:Copter V3.5.0-rc10 (c85c9578)

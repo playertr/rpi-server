@@ -6,8 +6,7 @@
 
 class Landing_State(object):
     """
-    We define a state object which provides some utility functions for the
-    individual states within the state machine.
+    A Landing_State is a template for individual states within the state machine, allowing state transition behavior and control behavior to be conveniently overridden.
     """
 
     def __init__(self, targ_sighting_loc=None):
